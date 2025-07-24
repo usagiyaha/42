@@ -1,0 +1,6 @@
+Compile: .c --> .o
+Recompile: when there is change in some.c, only compile some.c, not the other.c
+Makefile helps when there is too much .c or the project is very large, so that we don't need to compile all files when we only make small changes in several files. (make our lives easy)
+Makefiles: Rules, Variables, Targets, wildcards, automatic variables
+Rules: target:(prerequisites)  commands  (target defines the name of the target or target file, if not exist yet, running 'make' will run the first target in the makefile. We need to specify target name if it's not the first one.)
+       
