@@ -1,6 +1,39 @@
+https://makefiletutorial.com/#makefile-cookbook
 Compile: .c --> .o
 Recompile: when there is change in some.c, only compile some.c, not the other.c
 Makefile helps when there is too much .c or the project is very large, so that we don't need to compile all files when we only make small changes in several files. (make our lives easy)
 Makefiles: Rules, Variables, Targets, wildcards, automatic variables
 Rules: target:(prerequisites)  commands  (target defines the name of the target or target file, if not exist yet, running 'make' will run the first target in the makefile. We need to specify target name if it's not the first one.)
-       
+
+Pattern Rule
+%.o:%.c
+       $(CC) -c $^ -o $@
+or
+%.c:
+   touch $@
+
+A static pattern rule is used to define build commands for a specific subset of targets, and it ensures that the rule only applies to those targets, not to all files that happen to match the pattern.
+targets: target-pattern: prerequisite-pattern
+assume we have main.c math.c pp.c
+OBJECTS = main.o math.o
+$(OBJECTS): %.o:%.c
+       $(CC) -c $^ -o $@
+In this way, we do nothing for pp.c, but main.c and math.c
+
+filter function
+$(filter pattern, $(OBJECTS)) -- filter sth out from OBJECTS according to pattern (e.g. %.c, main%)
+
+
+When running make,  make will first scan and interpret the command and then push it to shell
+all:
+	myvar=42; echo $$myvar
+Step 1: Make sees $$myvar → expands to $myvar
+Step 2: Sends to shell → myvar=42; echo $myvar
+Shell implement → output：42
+
+VAR = hello
+all:
+	echo $(VAR)
+Step 1: Make sees $(VAR) → expands it to hello
+Step 2: Sends to shell → echo hello
+Shell prints: hello
